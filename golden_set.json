@@ -1,0 +1,14 @@
+[
+  {
+    "question": "What is the refund window for online purchases?",
+    "ground_truth": "Customers can request a refund within 30 days of purchase if the item is unused."
+  },
+  {
+    "question": "How long does shipping take?",
+    "ground_truth": "Standard shipping takes 5-7 business days. Express shipping takes 1-2 business days."
+  },
+  {
+    "question": "Can I cancel my order after it has shipped?",
+    "ground_truth": "Orders cannot be cancelled after shipping. They must be returned using the standard return process."
+  }
+]
