@@ -63,3 +63,4 @@ eval_threshold.yaml    # quality gates
 
 - Golden set is small; v2 will add synthetic test generation.
 - No live production monitoring yet - planned: LangFuse integration.
+# RAG-Eval-Framework
