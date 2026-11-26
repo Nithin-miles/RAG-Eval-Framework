@@ -1,7 +1,22 @@
-.env
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
 .venv/
 venv/
+env/
+
+# Test / run artefacts
 .pytest_cache/
-report.html
+.pytest_tmp/
+.pytest_tmp*/
+pytest_tmp/
+pytest_tmp*/
+pytest-cache-files-*/
+tests/_scratch/
+results/
+
+# Local secrets and tool caches
+.env
+.deepeval/
+.DS_Store

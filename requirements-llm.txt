@@ -1,0 +1,26 @@
+# OPTIONAL extras - only needed if you leave the offline path.
+#
+#   --generator openai      real LLM answers
+#   --mode ragas            RAGAS LLM-judge metrics
+#   --mode deepeval         DeepEval LLM-judge metrics
+#
+# All of them require OPENAI_API_KEY and spend money per evaluation run.
+#
+# A warning from experience: the APIs of ragas and deepeval change often enough
+# that "latest" is not reproducible. For a stable setup, pin exact versions that
+# you have tested, e.g.:
+#
+#   pip freeze > requirements-lock.txt
+#
+# This project's adapters (scorers/ragas_scorer.py, scorers/deepeval_scorer.py)
+# try several known entry points and raise ScorerUnavailable with an actionable
+# message if none of them exist in your installed version. They never silently
+# fall back to fake scores.
+
+-r requirements.txt
+
+openai>=1.30
+python-dotenv>=1.0
+datasets>=2.19
+ragas>=0.2
+deepeval>=1.0
