@@ -1,7 +1,7 @@
-ragas>=0.1.21
-deepeval>=0.21.0
-openai>=1.30.0
-datasets>=2.19.0
-python-dotenv>=1.0.0
-pyyaml>=6.0.1
-pandas>=2.2.0
+# Core runtime for the offline evaluation path.
+# Nothing here needs an API key, a network connection, or a model download.
+numpy>=1.26
+PyYAML>=6.0
+
+# Test runner (also used by CI)
+pytest>=8.0

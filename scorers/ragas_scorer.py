@@ -1,33 +1,125 @@
-import os
+"""Optional RAGAS adapter (``--mode ragas``).
+
+RAGAS is the library that popularised LLM-judge RAG metrics: faithfulness,
+answer relevancy, context precision, context recall, answer correctness.
+
+Two practical warnings, both learned the hard way in this repo:
+
+* RAGAS changes its public API between minor versions (0.2 renamed metrics,
+  0.4 moved them to ``ragas.metrics.collections``). This adapter tries the
+  stable entry points and reports honestly if none of them work.
+* An import can fail for reasons unrelated to your code - for example a
+  transitive ``langchain-community`` module that no longer exists. That is a
+  real failure, not something to paper over with fake scores.
+"""
+
+from __future__ import annotations
+
+from scorers import ScorerUnavailable, _require_api_key
+from scorers.local_metrics import MetricScore
 
 
-def score_ragas(results, mock=False):
-    """Returns a dict of RAGAS metrics. Falls back to deterministic
-    mock scores if OPENAI_API_KEY is missing or --mock is passed."""
-    use_mock = mock or not os.getenv("OPENAI_API_KEY")
+def _ragas_metrics() -> list:
+    """Return metric objects from whichever RAGAS API is installed."""
+    # RAGAS >= 0.4: metric classes live in ragas.metrics.collections.
+    try:
+        from ragas.metrics.collections import (
+            ContextPrecision,
+            ContextRecall,
+            Faithfulness,
+            ResponseRelevancy,
+        )
 
-    if use_mock:
-        print("[ragas] MOCK mode - returning synthetic scores")
-        return {
-            "faithfulness": 0.87,
-            "answer_relevance": 0.82,
-            "context_precision": 0.79,
-        }
+        return [
+            Faithfulness(),
+            ResponseRelevancy(),
+            ContextPrecision(),
+            ContextRecall(),
+        ]
+    except Exception:
+        pass
 
-    from ragas import evaluate
-    from ragas.metrics import faithfulness, answer_relevancy, context_precision
-    from datasets import Dataset
+    # RAGAS 0.1 / 0.2: module-level singleton metrics.
+    try:
+        from ragas.metrics import (
+            answer_relevancy,
+            context_precision,
+            context_recall,
+            faithfulness,
+        )
 
-    data = {
-        "question": [r["question"] for r in results],
-        "answer": [r["answer"] for r in results],
-        "contexts": [r["contexts"] for r in results],
-        "ground_truth": [r["ground_truth"] for r in results],
-    }
-    ds = Dataset.from_dict(data)
-    scores = evaluate(ds, metrics=[faithfulness, answer_relevancy, context_precision])
-    return {
-        "faithfulness": float(scores["faithfulness"]),
-        "answer_relevance": float(scores["answer_relevancy"]),
-        "context_precision": float(scores["context_precision"]),
-    }
+        return [faithfulness, answer_relevancy, context_precision, context_recall]
+    except Exception as exc:
+        raise ScorerUnavailable(
+            "Could not import RAGAS metrics from this installation "
+            f"({type(exc).__name__}: {exc}).\n"
+            "RAGAS's API changed a lot across versions. Try:\n"
+            "    pip install -r requirements-llm.txt\n"
+            "and check the version with: python -c \"import ragas; print(ragas.__version__)\""
+        ) from exc
+
+
+_NAME_MAP = {
+    "faithfulness": "faithfulness",
+    "answer_relevancy": "answer_relevance",
+    "response_relevancy": "answer_relevance",
+    "context_precision": "context_precision",
+    "context_recall": "context_recall",
+    "answer_correctness": "answer_correctness",
+}
+
+
+def score_with_ragas(records) -> dict[str, MetricScore]:
+    """Grade answerable run records with RAGAS.
+
+    Unanswerable questions are excluded: RAGAS metrics assume a real answer
+    exists, and scoring a correct refusal as "unfaithful" would be meaningless.
+    """
+    _require_api_key()
+
+    try:
+        from ragas import EvaluationDataset, SingleTurnSample, evaluate
+    except Exception as exc:
+        raise ScorerUnavailable(
+            f"Could not import RAGAS ({type(exc).__name__}: {exc}).\n"
+            "Install the optional extras with: pip install -r requirements-llm.txt"
+        ) from exc
+
+    usable = [r for r in records if r.answerable]
+    if not usable:
+        raise ScorerUnavailable("No answerable records to score with RAGAS.")
+
+    samples = [
+        SingleTurnSample(
+            user_input=r.question,
+            response=r.answer,
+            retrieved_contexts=list(r.contexts),
+            reference=r.ground_truth,
+        )
+        for r in usable
+    ]
+
+    try:
+        dataset = EvaluationDataset(samples=samples)
+        result = evaluate(dataset, metrics=_ragas_metrics())
+        frame = result.to_pandas()
+    except Exception as exc:
+        raise ScorerUnavailable(f"RAGAS evaluation failed: {exc}") from exc
+
+    scores: dict[str, MetricScore] = {}
+    for column in frame.columns:
+        canonical = _NAME_MAP.get(column.lower())
+        if not canonical:
+            continue
+        series = frame[column].dropna()
+        if series.empty:
+            continue
+        scores[canonical] = MetricScore(value=float(series.mean()), count=len(series))
+
+    if not scores:
+        raise ScorerUnavailable(
+            "RAGAS returned no recognised metric columns. "
+            f"Columns were: {list(frame.columns)}"
+        )
+
+    return scores

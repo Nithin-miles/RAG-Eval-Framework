@@ -1,0 +1,46 @@
+{
+  "config": {
+    "retriever": "vector",
+    "generator": "extractive",
+    "mode": "local",
+    "k": 3,
+    "chunk_size": 240,
+    "overlap": 60,
+    "dataset": "golden_set.json",
+    "corpus": "data/corpus"
+  },
+  "counts": {
+    "questions": 40,
+    "answerable": 35,
+    "unanswerable": 5,
+    "refused": 5
+  },
+  "scores": {
+    "faithfulness": {
+      "value": 1.0,
+      "count": 35
+    },
+    "answer_relevance": {
+      "value": 0.4844,
+      "count": 35
+    },
+    "context_precision": {
+      "value": 0.8067,
+      "count": 35
+    },
+    "context_recall": {
+      "value": 0.9805,
+      "count": 35
+    },
+    "answer_correctness": {
+      "value": 0.832,
+      "count": 35
+    },
+    "refusal_accuracy": {
+      "value": 1.0,
+      "count": 5
+    }
+  },
+  "run_at": "2026-11-26T13:25:46+00:00",
+  "note": "Committed baseline for --check-baseline. Regenerate by running: python evaluate.py"
+}

@@ -1,14 +1,167 @@
 [
   {
-    "question": "What is the refund window for online purchases?",
-    "ground_truth": "Customers can request a refund within 30 days of purchase if the item is unused."
+    "question": "What is the refund window for unused items?",
+    "ground_truth": "Refunds are available within 30 days of purchase for unused items in their original packaging."
   },
   {
-    "question": "How long does shipping take?",
-    "ground_truth": "Standard shipping takes 5-7 business days. Express shipping takes 1-2 business days."
+    "question": "What proof of purchase do I need for a refund?",
+    "ground_truth": "The customer must provide proof of purchase, such as an order confirmation email or receipt."
   },
   {
-    "question": "Can I cancel my order after it has shipped?",
-    "ground_truth": "Orders cannot be cancelled after shipping. They must be returned using the standard return process."
+    "question": "How long does refund processing take?",
+    "ground_truth": "Refund processing takes 5 to 7 business days after the returned item is received."
+  },
+  {
+    "question": "Are shipping charges refunded when I return an item?",
+    "ground_truth": "Shipping charges are not refunded unless the item arrived damaged."
+  },
+  {
+    "question": "Can I get a refund on a gift card?",
+    "ground_truth": "Digital products and gift cards are non-refundable."
+  },
+  {
+    "question": "How do I start a return?",
+    "ground_truth": "Start a return request in the order history page and print the prepaid return label."
+  },
+  {
+    "question": "How many days do I have to ship an item back after starting a return?",
+    "ground_truth": "Items must be shipped back within 14 days of starting the request."
+  },
+  {
+    "question": "Is there a restocking fee for opened electronics?",
+    "ground_truth": "A restocking fee of 15 percent applies to opened electronics."
+  },
+  {
+    "question": "What should I do if my item arrives damaged?",
+    "ground_truth": "Damaged items must be reported within 48 hours of delivery."
+  },
+  {
+    "question": "Can I exchange an item for a different size?",
+    "ground_truth": "Exchanges are offered when a customer wants a different size or color within 30 days of purchase."
+  },
+  {
+    "question": "How long does an exchange request take to process?",
+    "ground_truth": "Exchange requests are processed within 2 business days."
+  },
+  {
+    "question": "What happens if the exchange variant I want is out of stock?",
+    "ground_truth": "The customer can choose a refund or store credit instead."
+  },
+  {
+    "question": "Does store credit expire?",
+    "ground_truth": "Store credit never expires and can be used on any future order."
+  },
+  {
+    "question": "Can I exchange clearance items?",
+    "ground_truth": "Exchanges are not available for clearance items."
+  },
+  {
+    "question": "How long does standard shipping take?",
+    "ground_truth": "Standard shipping takes 5 to 7 business days."
+  },
+  {
+    "question": "How much does express shipping cost?",
+    "ground_truth": "Express shipping takes 1 to 2 business days and costs an additional 15 dollars."
+  },
+  {
+    "question": "When do orders placed before 2 PM ship?",
+    "ground_truth": "Orders placed before 2 PM Eastern Time ship the same business day."
+  },
+  {
+    "question": "Do you deliver outside the United States?",
+    "ground_truth": "We deliver only within the United States and do not offer international shipping."
+  },
+  {
+    "question": "How long does delivery to Alaska take?",
+    "ground_truth": "Delivery to Alaska and Hawaii takes 2 extra business days."
+  },
+  {
+    "question": "Can I cancel an order after it has shipped?",
+    "ground_truth": "Once an order has shipped it cannot be cancelled and the customer must wait for delivery."
+  },
+  {
+    "question": "How long does it take to refund a cancelled order?",
+    "ground_truth": "Cancellation of a Processing order refunds the full amount within 3 business days."
+  },
+  {
+    "question": "Can I cancel a personalised item after 24 hours?",
+    "ground_truth": "Custom or personalised items cannot be cancelled after 24 hours."
+  },
+  {
+    "question": "What are customer support hours?",
+    "ground_truth": "Customer support is available Monday through Friday from 9 AM to 6 PM Eastern Time."
+  },
+  {
+    "question": "How long do email replies from support take?",
+    "ground_truth": "Email replies usually arrive within one business day."
+  },
+  {
+    "question": "Is customer support open on public holidays?",
+    "ground_truth": "Support is closed on public holidays and during the winter break from December 24 to January 1."
+  },
+  {
+    "question": "How long is the warranty on electronics?",
+    "ground_truth": "Electronics come with a 12 month manufacturer warranty covering manufacturing defects."
+  },
+  {
+    "question": "Does the warranty cover water damage?",
+    "ground_truth": "The warranty does not cover accidental damage, water damage, or normal wear and tear."
+  },
+  {
+    "question": "How long are batteries and cables covered?",
+    "ground_truth": "Consumable parts such as batteries and cables are covered for only 90 days."
+  },
+  {
+    "question": "What payment methods do you accept?",
+    "ground_truth": "We accept Visa and Mastercard credit and debit cards, PayPal and Apple Pay."
+  },
+  {
+    "question": "Do you accept cryptocurrency?",
+    "ground_truth": "We do not accept cash on delivery, bank transfers or cryptocurrency."
+  },
+  {
+    "question": "When is my card charged?",
+    "ground_truth": "Payment is charged when the order ships, not when it is placed."
+  },
+  {
+    "question": "Can I combine a gift card with a credit card?",
+    "ground_truth": "Gift cards can be combined with a credit card on a single order."
+  },
+  {
+    "question": "How long is an order held if my payment fails?",
+    "ground_truth": "The order stays in Payment Pending for 24 hours before it is cancelled automatically."
+  },
+  {
+    "question": "How long does shipping take and can I cancel after it ships?",
+    "ground_truth": "Standard shipping takes 5 to 7 business days. Once an order has shipped it cannot be cancelled."
+  },
+  {
+    "question": "If my item arrives damaged, when must I report it and are shipping charges refunded?",
+    "ground_truth": "Damaged items must be reported within 48 hours of delivery. Shipping charges are not refunded unless the item arrived damaged."
+  },
+  {
+    "question": "Do you sell refurbished laptops?",
+    "ground_truth": "",
+    "answerable": false
+  },
+  {
+    "question": "Is there a student discount?",
+    "ground_truth": "",
+    "answerable": false
+  },
+  {
+    "question": "How do I reset my password?",
+    "ground_truth": "",
+    "answerable": false
+  },
+  {
+    "question": "Do you have a loyalty rewards program?",
+    "ground_truth": "",
+    "answerable": false
+  },
+  {
+    "question": "How do I become a reseller?",
+    "ground_truth": "",
+    "answerable": false
   }
 ]
